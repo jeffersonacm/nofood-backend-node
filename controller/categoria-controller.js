@@ -1,5 +1,4 @@
 'use strict';
-require('../models/categoria-model');
 const repository = require('../repositories/categoria-repository');
 
 function categoriaController() {}

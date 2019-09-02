@@ -1,21 +1,31 @@
 'use strict'
+const repository = require('../repositories/produto-repository');
 
-function produtoController() {
+function produtoController() {}
 
-}
+produtoController.prototype.post = async (req, res) => {
+    let resultado = await new repository().create(req.body);
+    res.status(201).send(resultado);
+};
 
-produtoController.prototype.post = async (req, res) => {};
-
-produtoController.prototype.put = async (req, res) => {};
+produtoController.prototype.put = async (req, res) => {
+    let resultado = await new repository().update(req.params.id, req.body);
+    res.status(202).send(resultado);
+};
 
 produtoController.prototype.get = async (req, res) => {
-    res.status(200).send('fdp');
-};
-  
-produtoController.prototype.getById = async (req, res) => {
-    res.status(200).send(`Id: ${req.params.id}`);
+    let resultado = await new repository().getAll();
+    res.status(200).send(resultado);
 };
 
-produtoController.prototype.delete = async (req, res) => {};
+produtoController.prototype.getById = async (req, res) => {
+    let resultado = await new repository().getById(req.params.id);
+    res.status(200).send(resultado);
+};
+
+produtoController.prototype.delete = async (req, res) => {
+    let produtoDelete = await new repository().delete(req.params.id);
+    res.status(204).send(produtoDelete);
+};
 
 module.exports = produtoController;
