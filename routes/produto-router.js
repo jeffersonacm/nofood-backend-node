@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const controller = require('../controller/categoria-controller');
+const controller = require('../controller/produto-controller');
 
 let _ctrl = new controller();
 
