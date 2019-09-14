@@ -1,31 +1,41 @@
 'use strict';
 const repository = require('../repositories/categoria-repository');
+const ctrlBase = require('../bin/base/controller-base')
+const validation = require('../bin/helpers/validation');
+
+const md5 = require('md5');
+const jwt = require('jsonwebtoken');
+const variables = require('../bin/config/variables');
 
 function categoriaController() {}
 
 categoriaController.prototype.post = async (req, res) => {
-    let resultado = await new repository().create(req.body);
-    res.status(201).send(resultado);
+    let validationContract = new validation();
+    validationContract.isRequired(req.body.titulo, 'Informe o título da categoria');
+    validationContract.isRequired(req.body.foto, 'Informe a foto da categoria');
+
+    ctrlBase.post(repository, validationContract, req, res);
 };
 
 categoriaController.prototype.put = async (req, res) => {
-    let resultado = await new repository().update(req.params.id, req.body);
-    res.status(202).send(resultado);
+    let validationContract = new validation();
+    validationContract.isRequired(req.body.titulo, 'Informe o título da categoria');
+    validationContract.isRequired(req.body.foto, 'Informe a foto da categoria');
+    validationContract.isRequired(req.params.id, 'Informe o id da categoria');
+
+    ctrlBase.put(repository, validationContract, req, res);
 };
 
 categoriaController.prototype.get = async (req, res) => {
-    let lista = await new repository().getAll();
-    res.status(200).send(lista);
+    ctrlBase.get(repository, req, res);
 };
 
 categoriaController.prototype.getById = async (req, res) => {
-    let categoriaEncontrada = await new repository().getById(req.params.id);
-    res.status(200).send(categoriaEncontrada);
+    ctrlBase.getById(repository, req, res);
 };
 
 categoriaController.prototype.delete = async (req, res) => {
-    let categoriaDelete = await new repository().delete(req.params.id);
-    res.status(204).send(categoriaDelete);
+    ctrlBase.delete(repository, req, res);
 };
 
 module.exports = categoriaController;
